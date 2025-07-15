@@ -73,7 +73,7 @@ export default function ChatSidebar({ setSidebarCollapsed }: { setSidebarCollaps
                             <Menu size={20} className="text-[var(--foreground)]" />
                         </button>
                     </div>
-                    <ul className="space-y-0.5 flex-1">
+                    <ul className="space-y-0.5 flex-1 h-[80vh] overflow-y-auto">
                         <li>
                             <button
                                 onClick={handleCreateRoom}

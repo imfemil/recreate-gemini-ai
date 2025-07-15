@@ -134,4 +134,4 @@ Feel free to customize and use it for your personal learning or portfolio.
 ## 👨‍💻 Author
 
 **Femil Patodiya (Femil Patel)**
-[GitHub](https://github.com/imfemil) | [LinkedIn](https://www.linkedin.com/in/femilpatodiya/)
+[GitHub](https://github.com/imfemil) | [LinkedIn](https://www.linkedin.com/in/imfemil/)

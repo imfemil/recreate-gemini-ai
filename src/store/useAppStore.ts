@@ -111,7 +111,7 @@ export const useAppStore = create<AppState>()(
         const thinkingMessage: Message = {
           id: `thinking_${Date.now()}`,
           role: 'model',
-          text: 'Thinking...',
+          text: '...',
           timestamp: Date.now()
         };
 
