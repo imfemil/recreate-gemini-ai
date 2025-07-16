@@ -2,6 +2,8 @@
 
 # Recreate Gemini AI - Frontend Clone (Next.js 15 + Zustand)
 
+**[Notion Description](https://sticky-bearberry-cba.notion.site/2370ce7957874f468cd8c820f4b1686c?v=757f76a0e57a4013b181ab9fb8d8114a)**
+
 A fully responsive, modern, Gemini AI frontend clone built with **Next.js 15 App Router**.
 This project mimics Gemini's Chat Interface with authentication flow, dummy AI conversations, dark/light theme, and image upload — all using only frontend tools and simulated data.
 

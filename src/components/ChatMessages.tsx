@@ -4,7 +4,7 @@ import { Check, Copy, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { toast } from 'sonner';
-
+import AIThinkingSkeleton from '@/components/AIThinkingSkeleton'
 export default function ChatMessages() {
     const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -51,7 +51,7 @@ export default function ChatMessages() {
                                 }`}
                         >
                             <div className="whitespace-pre-wrap break-words">
-                                {message.text}
+                                {message.text === '...' ? <AIThinkingSkeleton/> : message.text}
                                 {message.images && message.images.length > 0 && (
                                     <div className="mt-2 flex flex-wrap gap-2">
                                         {message.images.map((image, index) => (
