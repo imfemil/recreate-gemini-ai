@@ -74,7 +74,6 @@ export const useAppStore = create<AppState>()(
           createdAt: Date.now(),
           updatedAt: Date.now()
         };
-        
         set((state) => ({
           rooms: [newRoom, ...state.rooms], // Add new room at the beginning
           activeRoomId: id,

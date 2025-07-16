@@ -52,24 +52,24 @@ export default function DashboardPage({
                 }}
             >
                 <header className="h-16 bg-[var(--background)] sticky top-0 z-10">
-                    <div className="flex items-center h-full px-6">
-                        <Link href={'/dashboard'} className="text-xl font-medium text-[var(--foreground)] opacity-80">Gemini</Link>
+                    <div className="flex items-center h-full px-4 md:px-6">
+                        <Link href={'/dashboard'} className="text-lg md:text-xl font-medium text-[var(--foreground)] opacity-80">Gemini</Link>
                         <div className="ml-auto">
                             <TopbarUser />
                         </div>
                     </div>
                 </header>
 
-                <main className="flex-1 overflow-auto py-6">
-                    <div className="w-[95%] max-w-3xl mx-auto">
-                        <div className='backdrop-blur-sm bg-[var(--background)]/80 rounded-lg p-6'>
+                <main className="flex-1 overflow-auto py-4 md:py-6">
+                    <div className="w-[98%] md:w-[95%] max-w-3xl mx-auto">
+                        <div className='bg-[var(--background)] rounded-lg p-4 md:p-6'>
                             {children}
                         </div>
                     </div>
                 </main>
 
-                <footer className="sticky bottom-0 py-4 bg-[var(--background)]">
-                    <div className="w-[95%] max-w-3xl mx-auto">
+                <footer className="sticky bottom-0 py-2 md:py-4 bg-[var(--background)]">
+                    <div className="w-[98%] md:w-[95%] max-w-3xl mx-auto">
                         <div className="">
                             <AiInputBar />
                         </div>

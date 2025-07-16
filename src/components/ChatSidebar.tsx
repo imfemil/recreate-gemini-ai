@@ -2,7 +2,7 @@
 
 import { showToast } from '@/lib/toast';
 import { useAppStore } from '@/store/useAppStore';
-import { Menu, SquarePenIcon, Trash2 } from 'lucide-react';
+import { Menu, SquarePenIcon, Trash2, Search } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -12,6 +12,7 @@ export default function ChatSidebar({ setSidebarCollapsed }: { setSidebarCollaps
     const [collapsed, setCollapsed] = useState(false);
     const [manualOpen, setManualOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
     const params = useParams();
 
     useEffect(() => {
@@ -34,8 +35,9 @@ export default function ChatSidebar({ setSidebarCollapsed }: { setSidebarCollaps
             showToast('Chatroom name is required', 'error');
             return;
         }
-        createRoom(name);
+        const roomId = createRoom(name);
         showToast(`Chatroom "${name}" created`, 'success');
+        router.push(`/dashboard/${roomId}`);
     };
 
     const toggleSidebar = () => {
@@ -45,6 +47,10 @@ export default function ChatSidebar({ setSidebarCollapsed }: { setSidebarCollaps
     };
 
     const isCollapsed = (!manualOpen && collapsed) || (isMobile && !manualOpen);
+
+    const filteredRooms = rooms.filter(room => 
+        room.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     return (
         <div className="h-full">
@@ -63,7 +69,7 @@ export default function ChatSidebar({ setSidebarCollapsed }: { setSidebarCollaps
                 <div className="p-3 space-y-4 h-full flex flex-col">
                     <div className="flex items-center justify-between">
                         <h2 className={`text-xl font-bold text-[var(--foreground)] transition-opacity duration-300 ${isCollapsed ? 'opacity-0 w-0' : 'opacity-100'}`}>
-                            AI Chat
+                            Search Chat
                         </h2>
                         <button
                             onClick={toggleSidebar}
@@ -73,6 +79,18 @@ export default function ChatSidebar({ setSidebarCollapsed }: { setSidebarCollaps
                             <Menu size={20} className="text-[var(--foreground)]" />
                         </button>
                     </div>
+                    {!isCollapsed && (
+                        <div className="relative">
+                            <input
+                                type="text"
+                                placeholder="Search chats..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="w-full p-2 pl-8 rounded-lg bg-[var(--background)] text-[var(--foreground)] outline-none"
+                            />
+                            <Search size={16} className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500" />
+                        </div>
+                    )}
                     <ul className="space-y-0.5 flex-1 h-[80vh] overflow-y-auto">
                         <li>
                             <button
@@ -84,12 +102,12 @@ export default function ChatSidebar({ setSidebarCollapsed }: { setSidebarCollaps
                                 <span className={`ml-2 truncate transition-opacity duration-300 ${isCollapsed ? 'opacity-0 w-0' : 'opacity-100'}`}>New Chat</span>
                             </button>
                         </li>
-                        {!isCollapsed && rooms?.length > 0 && <li className="px-2.5 mt-5">
+                        {!isCollapsed && filteredRooms?.length > 0 && <li className="px-2.5 mt-5">
                             <span className="text-sm text-gray-500 font-semibold">
                                 Recent
                             </span>
                         </li>}
-                        {!isCollapsed && rooms.map((room) => (
+                        {!isCollapsed && filteredRooms.map((room) => (
                             <li
                                 key={room.id}
                                 className="group/item"

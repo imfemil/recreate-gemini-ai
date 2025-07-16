@@ -1,5 +1,5 @@
-Folder structure for /home/imfemil/Desktop/kuvaka/recreate-gemini-ai
-
+# Folder structure for recreate-gemini-ai
+```
 recreate-gemini-ai/
 ├── public/
 │   └── google-gemini-icon.png
@@ -66,3 +66,4 @@ recreate-gemini-ai/
 ├── postcss.config.mjs
 ├── README.md
 └── tsconfig.json
+```

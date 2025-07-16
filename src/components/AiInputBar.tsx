@@ -10,19 +10,30 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { promptInputSchema } from '@/validations/chatroomSchema';
 import { useAppStore } from '@/store/useAppStore';
+import { useRouter } from 'next/navigation';
 
 type FormValues = z.infer<typeof promptInputSchema>;
 
 export function useChatInput() {
     const [isThinking, setIsThinking] = useState(false);
     const throttleTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-    const { activeRoomId, sendMessage, receiveAIMessage } = useAppStore();
+    const router = useRouter();
+    const { createRoom, activeRoomId, sendMessage, receiveAIMessage } = useAppStore();
 
     const handleSendMessage = useCallback(async (text: string) => {
         const messageText = text.trim();
 
-        if (!activeRoomId || isThinking || !messageText) return;
+        if (!activeRoomId) {
+            const name = prompt('Enter chatroom name:')?.trim();
+            if (!name) {
+                toast.error('Chatroom name is required');
+                return;
+            }
+            const roomId = createRoom(name);
+            toast.success(`Chatroom "${name}" created`);
+            router.push(`/dashboard/${roomId}`);
+            return;
+        }
 
         if (throttleTimeoutRef.current) {
             clearTimeout(throttleTimeoutRef.current);
@@ -45,8 +56,8 @@ export function useChatInput() {
             } finally {
                 setIsThinking(false);
             }
-        }, 2000);
-    }, [activeRoomId, isThinking, sendMessage, receiveAIMessage]);
+        }, 200);
+    }, [activeRoomId, sendMessage, receiveAIMessage, router, createRoom]);
 
     return {
         isThinking,
@@ -124,7 +135,6 @@ export default function AiInputBar() {
         reset();
         setImagePreview([]);
     };
-
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
@@ -176,11 +186,10 @@ export default function AiInputBar() {
                     <button
                         type="submit"
                         disabled={isThinking || !messageValue.trim()}
-                        className={`ml-2 p-2.5 rounded-full transition-all duration-200 ${
-                            isThinking || !messageValue.trim() 
-                                ? 'opacity-50 cursor-not-allowed' 
-                                : 'hover:bg-[var(--sidebar)] cursor-pointer'
-                        }`}
+                        className={`ml-2 p-2.5 rounded-full transition-all duration-200 ${isThinking || !messageValue.trim()
+                            ? 'opacity-50 cursor-not-allowed'
+                            : 'hover:bg-[var(--sidebar)] cursor-pointer'
+                            }`}
                         style={{ backgroundColor: 'var(--background)', color: 'var(--foreground)' }}
                     >
                         <Send className="w-5 h-5" />
